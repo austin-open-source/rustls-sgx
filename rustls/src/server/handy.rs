@@ -6,7 +6,12 @@ use crate::server::ClientHello;
 use crate::sign;
 
 use std::collections;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+#[cfg(not(target_env = "sgx"))]
+use std::sync::Mutex;
+
+#[cfg(target_env = "sgx")]
+use std::sync::SgxMutex as Mutex;
 
 /// Something which never stores sessions.
 pub struct NoServerSessionStorage {}

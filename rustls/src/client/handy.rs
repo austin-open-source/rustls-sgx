@@ -5,7 +5,12 @@ use crate::limited_cache;
 use crate::msgs::enums::SignatureScheme;
 use crate::sign;
 
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+#[cfg(not(target_env = "sgx"))]
+use std::sync::Mutex;
+
+#[cfg(target_env = "sgx")]
+use std::sync::SgxMutex as Mutex;
 
 /// An implementer of `StoresClientSessions` which does nothing.
 pub struct NoClientSessionStorage {}
