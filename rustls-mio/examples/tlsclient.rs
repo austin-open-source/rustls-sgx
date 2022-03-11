@@ -1,5 +1,10 @@
 use std::process;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
+#[cfg(not(target_env = "sgx"))]
+use std::sync::Mutex;
+
+#[cfg(target_env = "sgx")]
+use std::sync::SgxMutex as Mutex;
 
 use mio;
 use mio::net::TcpStream;
