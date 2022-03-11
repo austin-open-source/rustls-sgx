@@ -1,9 +1,19 @@
 use std::env;
+
+#[cfg(not(target_env = "sgx"))]
 use std::fs::{File, OpenOptions};
+
+#[cfg(target_env = "sgx")]
+use std::untrusted::fs::{File, OpenOptions};
+
 use std::io;
 use std::io::Write;
 use std::path::Path;
+#[cfg(not(target_env = "sgx"))]
 use std::sync::Mutex;
+
+#[cfg(target_env = "sgx")]
+use std::sync::SgxMutex as Mutex;
 
 #[cfg(feature = "logging")]
 use crate::log::warn;
@@ -135,7 +145,7 @@ impl KeyLogFileInner {
 pub struct KeyLogFile(Mutex<KeyLogFileInner>);
 
 impl KeyLogFile {
-    /// Makes a new `KeyLogFile`.  The environment variable is
+    /// Makes a new `KeyLogFile`. The environment variable is
     /// inspected and the named file is opened during this call.
     pub fn new() -> Self {
         let var = env::var("SSLKEYLOGFILE");

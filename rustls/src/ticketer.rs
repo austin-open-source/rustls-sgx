@@ -4,7 +4,21 @@ use crate::Error;
 
 use ring::aead;
 use std::mem;
-use std::sync::{Arc, Mutex, MutexGuard};
+
+use std::sync::Arc;
+
+#[cfg(not(target_env = "sgx"))]
+use std::sync::Mutex;
+
+#[cfg(target_env = "sgx")]
+use std::sync::SgxMutex as Mutex;
+
+#[cfg(not(target_env = "sgx"))]
+use std::sync::MutexGuard;
+
+#[cfg(target_env = "sgx")]
+use std::sync::SgxMutexGuard as MutexGuard;
+
 use std::time;
 
 /// The timebase for expiring and rolling tickets and ticketing

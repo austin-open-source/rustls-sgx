@@ -36,7 +36,7 @@ use std::{fmt, io, mem};
 ///
 /// `put` is a mutating operation; this isn't expressed
 /// in the type system to allow implementations freedom in
-/// how to achieve interior mutability.  `Mutex` is a common
+/// how to achieve interior mutability. `Mutex` is a common
 /// choice.
 pub trait StoresClientSessions: Send + Sync {
     /// Stores a new `value` for `key`.  Returns `true`

@@ -41,7 +41,7 @@ use std::{fmt, io};
 ///
 /// `put` and `take` are mutating operations; this isn't expressed
 /// in the type system to allow implementations freedom in
-/// how to achieve interior mutability.  `Mutex` is a common
+/// how to achieve interior mutability. `Mutex` is a common
 /// choice.
 pub trait StoresServerSessions: Send + Sync {
     /// Store session secrets encoded in `value` against `key`,
